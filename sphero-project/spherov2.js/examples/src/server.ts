@@ -281,7 +281,7 @@ var server = net.createServer(async function(socket) {
 
                     } else if (command[0] == 'enable_collision_detection') {
                       var droid2 = <R2D2 | R2Q5> droid;
-                      await droid2.configureCollisionDetection();
+                      await droid2.configureCollisionDetection(50, 50, 50, 50);
                       console.log('Collision Detection Enabled');
                       droid2.on(Event.onCollision, () => {
                         // tslint:disable-next-line:no-console
