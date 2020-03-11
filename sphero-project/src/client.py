@@ -382,6 +382,10 @@ class DroidClient:
     def exit(self):
         return self.quit()
 
+    def enable_collision_detection(self):
+      command = 'enable_collision_detection'
+      self.send_and_receive(command)
+
     def enter_drive_mode(self):
         if self.connected_to_droid:
             print('\nPreparing for drive mode...\n')

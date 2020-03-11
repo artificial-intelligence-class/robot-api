@@ -1,6 +1,7 @@
 import { Scanner, Stance, Utils } from 'spherov2.js';
 import { R2D2, R2Q5 } from 'spherov2.js';
 import { sounds_array } from 'spherov2.js';
+import { Event } from '../../lib/src/toys/core'
 const net = require('net');
 const fs = require('fs');
 
@@ -278,7 +279,18 @@ var server = net.createServer(async function(socket) {
                         await droid.setLogicDisplayIntensity(intensity);
                         socket.write('Logic display intensity set.\r\n');
 
-                    } else {
+                    } else if (command[0] == 'enable_collision_detection') {
+                      var droid2 = <R2D2 | R2Q5> droid;
+                      await droid2.configureCollisionDetection(50, 50, 50, 50);
+                      console.log('Collision Detection Enabled');
+                      droid2.on(Event.onCollision, () => {
+                        // tslint:disable-next-line:no-console
+                        console.log('Collision Detected', command);
+                        droid2.playSound(2);
+                      });
+                      socket.write('Collision Detection Enabled.\r\n')
+
+                  } else {
                         throw new Error('Illegal command.');
                     }
                 }
