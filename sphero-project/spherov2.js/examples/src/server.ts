@@ -280,8 +280,13 @@ var server = net.createServer(async function(socket) {
                         socket.write('Logic display intensity set.\r\n');
 
                     } else if (command[0] == 'enable_collision_detection') {
+                      var xThreshold: number = Number(command[1]);
+                      var yThreshold: number = Number(command[2]);
+                      var xSpeed: number  = Number(command[3]);
+                      var ySpeed: number  = Number(command[4]);
+                      var deadTime: number  = Number(command[5]);
                       var droid2 = <R2D2 | R2Q5> droid;
-                      await droid2.configureCollisionDetection(50, 50, 50, 50);
+                      await droid2.configureCollisionDetection(xThreshold, yThreshold, xSpeed, ySpeed, deadTime);
                       console.log('Collision Detection Enabled');
                       droid2.on(Event.onCollision, () => {
                         // tslint:disable-next-line:no-console

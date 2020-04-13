@@ -382,8 +382,15 @@ class DroidClient:
     def exit(self):
         return self.quit()
 
-    def enable_collision_detection(self):
-      command = 'enable_collision_detection'
+    '''
+    xThreshold:
+    yThreshold:
+    xSpeed:
+    ySpeed:
+    deadTime:
+    '''
+    def enable_collision_detection(self, xThreshold = 50, yThreshold = 50, xSpeed = 50, ySpeed = 50, deadTime = 10):
+      command = 'enable_collision_detection %d %d %d %d %d' % (xThreshold, yThreshold, xSpeed, ySpeed, deadTime)
       self.send_and_receive(command)
 
     def enter_drive_mode(self):
