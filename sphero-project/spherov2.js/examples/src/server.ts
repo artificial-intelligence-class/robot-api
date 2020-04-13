@@ -14,6 +14,19 @@ function sleep(milliseconds) {
     }
 }
 
+// helper function for processing collision reaction
+// command enum is defined in collision_reactions.py
+function collisionHelper(droid: R2D2 | R2Q5, command: number) {
+  // tslint:disable-next-line:no-console
+  console.log('Collision Detected', command);
+  if (command == 1) {
+    droid.playSound(2)
+  }
+  else if (command == 2) {
+    droid.roll(0, 90, []);
+  }
+}
+
 var server = net.createServer(async function(socket) {
 
     var socketID = `${socket.remoteAddress}:${socket.remotePort}`;
@@ -285,13 +298,12 @@ var server = net.createServer(async function(socket) {
                       var xSpeed: number  = Number(command[3]);
                       var ySpeed: number  = Number(command[4]);
                       var deadTime: number  = Number(command[5]);
+                      var reaction: number = Number(command[6]);
                       var droid2 = <R2D2 | R2Q5> droid;
                       await droid2.configureCollisionDetection(xThreshold, yThreshold, xSpeed, ySpeed, deadTime);
                       console.log('Collision Detection Enabled');
                       droid2.on(Event.onCollision, () => {
-                        // tslint:disable-next-line:no-console
-                        console.log('Collision Detected', command);
-                        droid2.playSound(2);
+                        collisionHelper(droid2, reaction);
                       });
                       socket.write('Collision Detection Enabled.\r\n')
 

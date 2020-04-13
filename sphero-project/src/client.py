@@ -5,7 +5,7 @@ from math import sin, cos, pi
 import atexit
 from threading import Timer
 import utils
-from threading import Timer
+from collision_reactions import collisionReaction
 
 class DroidClient:
     addr = '0.0.0.0'
@@ -387,9 +387,10 @@ class DroidClient:
                             Lower values means the robot is more sensitive; collisions are detected at lower speeds
     xSpeed, ySpeed: additional parameters for collision detection
     deadTime: the amount of time after a collision event until the robot can detect another collision. Lower values log collisions more often
+    reaction: what the sphero should do upon collision detection; default is beeping
     '''
-    def enable_collision_detection(self, xThreshold = 50, yThreshold = 50, xSpeed = 50, ySpeed = 50, deadTime = 10):
-      command = 'enable_collision_detection %d %d %d %d %d' % (xThreshold, yThreshold, xSpeed, ySpeed, deadTime)
+    def enable_collision_detection(self, xThreshold = 50, yThreshold = 50, xSpeed = 50, ySpeed = 50, deadTime = 10, reaction = collisionReaction.BEEP):
+      command = 'enable_collision_detection %d %d %d %d %d %d' % (xThreshold, yThreshold, xSpeed, ySpeed, deadTime, reaction.value)
       self.send_and_receive(command)
 
     def enter_drive_mode(self):
